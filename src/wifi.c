@@ -24,7 +24,7 @@
 
 static EventGroupHandle_t s_wifi_event_group;
 
-extern xSemaphoreHandle connectedWifiSemaphore;
+extern xSemaphoreHandle wifiSem;
 extern int connected;
 static int count = 0;
 
@@ -68,7 +68,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         ip_event_got_ip_t* event = (ip_event_got_ip_t *)event_data;
         ESP_LOGI(TAG, "Endereço IP recebido:" IPSTR, IP2STR(&event->ip_info.ip));
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
-        xSemaphoreGive(connectedWifiSemaphore);
+        xSemaphoreGive(wifiSem);
     }
 }
 
